@@ -1,5 +1,6 @@
 .env
 /docs
+/Docs
 /venv
 /env
 /__pycache__

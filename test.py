@@ -3,35 +3,14 @@ import time
 import hashlib
 import requests
 from urllib.parse import urlencode
-
 from dotenv import dotenv_values
+
 config = dotenv_values(".env")
-print("connecting to api")
-""" This is a very simple script working on Binance API
-
-- work with USER_DATA endpoint with no third party dependency
-- work with testnet
-
-Provide the API key and secret, and it's ready to go
-
-Because USER_DATA endpoints require signature:
-- call `send_signed_request` for USER_DATA endpoints
-- call `send_public_request` for public endpoints
-
-```python
-
-python spot.py
-
-```
-
-"""
 
 
-
-
-KEY = config["api_key"]
-SECRET = config["secret_key"]
-# BASE_URL = "https://api.binance.com"  # production base url
+KEY = config["API_KEY"]
+SECRET = config["SECRET_KEY"]
+##BASE_URL = "https://api.binance.com"  # production base url
 BASE_URL = 'https://testnet.binance.vision' # testnet base url
 
 """ ======  begin of functions, you don't need to touch ====== """
@@ -95,6 +74,11 @@ def send_public_request(url_path, payload={}):
 response = send_public_request(
     "/api/v3/klines", {"symbol": "BTCUSDT", "interval": "1d"}
 )
+print('''
+Klines BTC
+###########################
+
+''')
 print(response)
 
 
@@ -102,6 +86,11 @@ print(response)
 # get account informtion
 # if you can see the account details, then the API key/secret is correct
 response = send_signed_request("GET", "/api/v3/account")
+print('''
+##############################################
+Account
+
+''')
 print(response)
 
 

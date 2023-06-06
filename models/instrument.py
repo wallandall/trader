@@ -1,16 +1,33 @@
 class Instrument:
-    def __init__(self, 
-                  symbol, 
-                  base_asset, 
-                  quote_asset):
-        self.symbol=symbol 
-        self.base_asset=base_asset
-        self.quote_asset=quote_asset
-    
+    def __init__(
+        self,
+        symbol,
+        status,
+        baseAsset,
+        quoteAsset,
+        baseAssetPrecision,
+        quotePrecision,
+        quoteAssetPrecision,
+    ):
+        self.symbol = symbol
+        self.status = status
+        self.baseAsset = baseAsset
+        self.quoteAsset = quoteAsset
+        self.baseAssetPrecision = baseAssetPrecision
+        self.quotePrecision = quotePrecision
+        self.quoteAssetPrecision = quoteAssetPrecision
+
     def __repr__(self):
-       return str(vars(self))
-    
+        return str(vars(self))
+
     @classmethod
     def FromApiObject(cls, ob):
-        return Instrument(ob['symbol'], ob['baseAsset'], ob['quoteAsset'])
-   
+        return Instrument(
+            ob["symbol"],
+            ob["status"],
+            ob["baseAsset"],
+            ob["quoteAsset"],
+            ob["baseAssetPrecision "],
+            ob["quotePrecision"],
+            ob["quoteAssetPrecision"],
+        )

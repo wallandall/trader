@@ -14,57 +14,14 @@ class TraderApi:
     KEY = config["API_KEY"]
     SECRET = config["SECRET_KEY"]
 
-    def __init__(self):
-        self.api_key = self.KEY
-        self.api_secret = self.SECRET
-
-    # def _generate_signature(self, params):
-    #     query_string = '&'.join([f"{k}={v}" for k, v in params.items()])
-    #     signature = hmac.new(self.api_secret.encode('utf-8'), query_string.encode('utf-8'), hashlib.sha256).hexdigest()
-    #     return signature
-
-    # def _make_request(self, method, endpoint, params=None, headers=None):
-    #     url = self.BASE_URL + endpoint
-    #     headers = headers or {}
-    #     params = params or {}
-
-    #     if method == 'GET':
-    #         response = requests.get(url, headers=headers, params=params)
-    #     elif method == 'POST':
-    #         response = requests.post(url, headers=headers, params=params)
-    #     else:
-    #         raise ValueError(f'Unsupported HTTP method: {method}')
-
-    #     response.raise_for_status()
-    #     return response.json()
-
-    # def get_account_info(self):
-    #     endpoint = '/api/account'
-    #     params = {
-    #         'timestamp': int(time.time() * 1000),
-    #         'recvWindow': 5000,
-    #         'apiKey': self.api_key
-    #     }
-    #     params['signature'] = self._generate_signature(params)
-    #     headers = {'X-MBX-APIKEY': self.api_key}
-
-    #     return self._make_request('GET', endpoint, params, headers)
-
-    # def get_recent_trades(self, symbol, limit=100):
-    #     endpoint = '/trades'
-    #     params = {
-    #         'symbol': symbol,
-    #         'limit': limit
-    #     }
-
-    #     return self._make_request('GET', endpoint, params)
+    def __init__(self, api_key, secret_key):
+        self.api_key = api_key
+        self.secret_key = secret_key
 
     def _hashing(self, query_string):
         return hmac.new(
-            self.api_secret.encode("utf-8"),
-            query_string.encode("utf-8"),
-            hashlib.sha256,
-        ).hexdigest
+            self.secret_key.encode("utf-8"), query_string.encode("utf-8"), hashlib.sha256
+        ).hexdigest()
 
     def _get_timestamp(self):
         return int(time.time() * 1000)
@@ -72,54 +29,67 @@ class TraderApi:
     def _dispatch_request(self, http_method):
         session = requests.Session()
         session.headers.update(
-            {
-                "Content-Type": "application/json;charset=utf-8",
-                "X-MBX-APIKEY": self.api_key,
-            }
+            {"Content-Type": "application/json;charset=utf-8", "X-MBX-APIKEY": self.api_key}
         )
-        return{
-            "GET":session.get,
-            "DELET":session.delete,
-            "PUT":session.put,
-            "POST":session.post
+        return {
+            "GET": session.get,
+            "DELETE": session.delete,
+            "PUT": session.put,
+            "POST": session.post,
         }.get(http_method, "GET")
-    
+
+    # used for sending request that requires the signature
     def _send_signed_request(self, http_method, url_path, payload={}):
         query_string = urlencode(payload, True)
         if query_string:
             query_string = "{}&timestamp={}".format(query_string, self._get_timestamp())
         else:
-            query_string = "timestamp={}".format( self._get_timestamp())
-        signature = self._hashing(query_string)
+            query_string = "timestamp={}".format(self._get_timestamp())
+
         url = (
-            self.BASE_URL + url_path + "?" + query_string + "&signature=" + signature
+            self.BASE_URL + url_path + "?" + query_string + "&signature=" + self._hashing(query_string)
         )
         print("{} {}".format(http_method, url))
         params = {"url": url, "params": {}}
         response = self._dispatch_request(http_method)(**params)
         return response.json()
-    
+
+    # used for sending public data request
     def _send_public_request(self, url_path, payload={}):
-      query_string = urlencode(payload, True)
-      url = self.BASE_URL + url_path
-      if query_string:
-        url = url + "?" + query_string
-      print("{}".format(url))
-      response = self._dispatch_request("GET")(url=url)
-      return response.json()
+        query_string = urlencode(payload, True)
+        url = self.BASE_URL + url_path
+        if query_string:
+            url = url + "?" + query_string
+        print("{}".format(url))
+        response = self._dispatch_request("GET")(url=url)
+        return response.json()
     
-    #################################################################
-    ##                      Public API Queries                     ##
-    #################################################################
-    def get_klines(self,symbol, interval):
-        response = self._send_public_request(
-            "/api/v3/klines", {"symbol": symbol, "interval": interval}
-        )
+
+    #Public requests
+
+    #Get candle stick data for symbol and time interval
+    def get_klines(self, symbol, interval):
+        response = self._send_public_request("/api/v3/klines", {"symbol": symbol, "interval": interval})
+        return response
+    
+    #Get current ptices
+    def get_symbol_price_ticker(self):
+        response = self._send_public_request("/api/v3/ticker/price")
+        return response
+    
+    def get_instraments(self):
+        response = self._send_public_request("/api/v3/exchangeInfo")
         return response
 
-    #################################################################
-    ##                      Private API Queries                    ##
-    #################################################################
+    
+    
+    #Private requests
+
+    #Get account information
     def get_account_info(self):
         response = self._send_signed_request("GET", "/api/v3/account")
+        return response
+    
+    def get_instruments(self):
+        response = self._send_signed_request("GET", "/api/v3/exchangeInfo")
         return response

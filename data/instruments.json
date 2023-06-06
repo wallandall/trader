@@ -1,0 +1,102 @@
+{
+  "BNBBUSD": {
+    "symbol": "BNBBUSD",
+    "baseAsset": "BNB",
+    "quoteAsset": "BUSD"
+  },
+  "BTCBUSD": {
+    "symbol": "BTCBUSD",
+    "baseAsset": "BTC",
+    "quoteAsset": "BUSD"
+  },
+  "ETHBUSD": {
+    "symbol": "ETHBUSD",
+    "baseAsset": "ETH",
+    "quoteAsset": "BUSD"
+  },
+  "LTCBUSD": {
+    "symbol": "LTCBUSD",
+    "baseAsset": "LTC",
+    "quoteAsset": "BUSD"
+  },
+  "TRXBUSD": {
+    "symbol": "TRXBUSD",
+    "baseAsset": "TRX",
+    "quoteAsset": "BUSD"
+  },
+  "XRPBUSD": {
+    "symbol": "XRPBUSD",
+    "baseAsset": "XRP",
+    "quoteAsset": "BUSD"
+  },
+  "BNBUSDT": {
+    "symbol": "BNBUSDT",
+    "baseAsset": "BNB",
+    "quoteAsset": "USDT"
+  },
+  "BTCUSDT": {
+    "symbol": "BTCUSDT",
+    "baseAsset": "BTC",
+    "quoteAsset": "USDT"
+  },
+  "ETHUSDT": {
+    "symbol": "ETHUSDT",
+    "baseAsset": "ETH",
+    "quoteAsset": "USDT"
+  },
+  "LTCUSDT": {
+    "symbol": "LTCUSDT",
+    "baseAsset": "LTC",
+    "quoteAsset": "USDT"
+  },
+  "TRXUSDT": {
+    "symbol": "TRXUSDT",
+    "baseAsset": "TRX",
+    "quoteAsset": "USDT"
+  },
+  "XRPUSDT": {
+    "symbol": "XRPUSDT",
+    "baseAsset": "XRP",
+    "quoteAsset": "USDT"
+  },
+  "BNBBTC": {
+    "symbol": "BNBBTC",
+    "baseAsset": "BNB",
+    "quoteAsset": "BTC"
+  },
+  "ETHBTC": {
+    "symbol": "ETHBTC",
+    "baseAsset": "ETH",
+    "quoteAsset": "BTC"
+  },
+  "LTCBTC": {
+    "symbol": "LTCBTC",
+    "baseAsset": "LTC",
+    "quoteAsset": "BTC"
+  },
+  "TRXBTC": {
+    "symbol": "TRXBTC",
+    "baseAsset": "TRX",
+    "quoteAsset": "BTC"
+  },
+  "XRPBTC": {
+    "symbol": "XRPBTC",
+    "baseAsset": "XRP",
+    "quoteAsset": "BTC"
+  },
+  "LTCBNB": {
+    "symbol": "LTCBNB",
+    "baseAsset": "LTC",
+    "quoteAsset": "BNB"
+  },
+  "TRXBNB": {
+    "symbol": "TRXBNB",
+    "baseAsset": "TRX",
+    "quoteAsset": "BNB"
+  },
+  "XRPBNB": {
+    "symbol": "XRPBNB",
+    "baseAsset": "XRP",
+    "quoteAsset": "BNB"
+  }
+}
